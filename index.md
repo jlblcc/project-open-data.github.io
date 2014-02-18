@@ -46,7 +46,7 @@ Implementation guidance for open data practices.
 
 3-4 [Frequently Asked Questions](/faq/) - A growing list of common questions and answers to facilitate adoption of open data projects.  
 
-3-5 [Open Data Cross Priority (CAP) Goal](http://goals.performance.gov/opendata) - Information on the development of the Open Data CAP goal as required in the [Open Data Execuitve Order](http://www.whitehouse.gov/the-press-office/2013/05/09/executive-order-making-open-and-machine-readable-new-default-government). 
+3-5 [Open Data Cross Priority (CAP) Goal](http://goals.performance.gov/opendata) - Information on the development of the Open Data CAP goal as required in the [Open Data Executive Order](http://www.whitehouse.gov/the-press-office/2013/05/09/executive-order-making-open-and-machine-readable-new-default-government). 
 
 ----------------
 
@@ -112,6 +112,8 @@ Resources to provide guidance and assistance for each aspect of creating and mai
 5-8 [Applying the Open Data Policy to Federal Awards: FAQ](federal-awards-faq/) - Frequently asked questions for contracting officers, grant professionals and the federal acquisitions community on applying the Open Data Policy to federal awards. 
 
 5-9 [Example Policy Documents](policy-docs/) - Collection of memos, guidance and policy documents about open data for reference.
+
+5-10 [Example Data Hubs](/data-hubs) - Collection of department, agency, and program data sites across the federal government.
 
 ----------------
 

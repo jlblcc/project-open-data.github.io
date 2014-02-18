@@ -5,7 +5,6 @@ title: Common Core Metadata Schema
 permalink: /schema/
 filename: schema.md
 id: schema
-
 ---
 
 This section contains guidance to support the use of the common core metadata to list agency datasets and application programming interfaces (APIs) as hosted at agency.gov/data.
@@ -14,16 +13,18 @@ Updates to the metadata schema can be found in the [changelog](/metadata-changel
 
 Standard Metadata Vocabulary
 ----------------------------
-Metadata are selected fields or elements which describe data. The challenge is to define the standard metadata fields and the names of those fields so that the consumer of the data has sufficient information to process and understand the data. The more information that can be conveyed in a standardized regular format, the more valuable data becomes. Metadata can range from basic to advanced, from allowing one to discover the mere fact that a certain data asset exists and is about a general subject all the way to providing detailed semantic information that enables a high degree of machine readability. Making the metadata machine readable greatly increases its openness and utility.
+Metadata is structured information that describes, explains, locates, or otherwise makes it easier to retrieve, use, or manage an information resource (NISO 2004, ISBN: 1-880124-62-9).  The challenge is to define and name standard metadata fields so that a data consumer has sufficient information to process and understand the described data. The more information that can be conveyed in a standardized regular format, the more valuable data becomes. Metadata can range from basic to advanced, from allowing one to discover the mere fact that a certain data asset exists and is about a general subject all the way to providing detailed information documenting the structure, processing history, quality, relationships, and other properties of a dataset. Making metadata machine readable greatly increases its utility, but requires more detailed standardization, defining not only field names, but how information is encoded in the metadata fields.
 
-Establishing a common vocabulary is the key to any communication, including communication between machines.  [DCAT](http://www.w3.org/TR/vocab-dcat/) is a hierarchical vocabulary specific to datasets that serves as the basis for the **common core metadata** required in this memorandum. The standard consists of a number of schemas (hierarchical vocabulary terms) that represent things that are most often looked for on the web, with [mappings](http://project-open-data.github.io/metadata-resources/#common_core_required_fields_equivalents) to their equivalents in other standards.  
+Establishing a common vocabulary is the key to communication. The **common core metadata** specified in this memorandum is based on [DCAT](http://www.w3.org/TR/vocab-dcat/), a hierarchical vocabulary specific to datasets. This specification defines three levels of metadata elements: Required, Required-if (conditionally required), and Expanded fields.  These elements were selected to represent information that is most often looked for on the web. To assist users of other metadata standards, [mappings](http://project-open-data.github.io/metadata-resources/#common_core_required_fields_equivalents) to equivalent elements in other standards are provided.  
 
-What to Document -- Datasets and APIs
+What to Document -- Datasets and Web APIs
 -------------------------------------
 
-APIs allow developers (both internal to the agency and the public) to dynamically query a dataset. For example, a dataset [of farmers markets](https://explore.data.gov/Agriculture/Farmers-Markets-Geographic-Data/wfna-38ey) may be made available for download as a single file (e.g., a CSV), or may be made available to developers as an API, such that a developer could provide the agency with a ZIP Code, and retrieve a list of farmers markets in that area.
+A dataset is an identifiable collection of structured data objects unified by some criteria (authorship, subject, scope, spatial or temporal extent...). A catalog is a collection of descriptions of datasets; each description is a metadata record. The intention of a data catalog is to facilitate data access by users who are first interested in a particular kind of data, and upon finding a fit-for-purpose dataset, will next want to know how to get the data.
 
-The catalog file should list all of an agency's datasets that can be made public, regardless of form -- this includes raw datasets and APIs.  Use **Endpoint** to indicate which datasets offer dynamic APIs (see below for more information on Common Core and Extensional metadata elements).
+A Web API (**A**pplication **P**rogramming **I**nterface) allows computer programs to dynamically query a dataset using the World Wide Web. For example, a dataset [of farmers markets](https://explore.data.gov/Agriculture/Farmers-Markets-Geographic-Data/wfna-38ey) may be made available for download as a single file (e.g., a CSV), or may be made available to developers through a Web API, such that a computer program could use a ZIP Code to retrieve a list of farmers markets in the ZIP Code area.
+
+The catalog file for each agency should list all of the agency's datasets that can be made public, regardless of whether they are distributed by a file download or through a Web API.  The **Endpoint** data element is used to indicate which datasets offer Web APIs (see below for more information on Common Core and Extended metadata elements).
 
 
 Metadata File Format --  JSON
@@ -32,6 +33,8 @@ Metadata File Format --  JSON
 The [Implementation Guidance](/implementation-guide/) available as a part of Project Open Data describes Agency requirements for the development of metadata as per the Open Data Policy.  A quick primer on the file format involved:
 
 [JSON](http://www.json.org) is a lightweight data-exchange format that is very easy to read, parse and generate.  Based on a subset of the JavaScript programming language, JSON is a text format that is optimized for data interchange.  JSON is built on two structures: (1) a collection of name/value pairs; and (2) an ordered list of values.  
+
+Where optional fields are included in a catalog file but are unpopulated, they may be represented by a `null` value.  They should not be represented by an empty string (`""`).  
 
 Links to downloadable examples of metadata files developed in this and other formats in [the metadata resources](/metadata-resources/).  Tools to help agencies produce and maintain their data inventories are [available on GitHub](http://www.github.com/project-open-data) and hosted at [Labs.Data.gov](http://labs.data.gov).
 
@@ -142,7 +145,7 @@ Further Metadata Field Guidance (alphabetical by JSON field)
 **Required** | Yes, for United States Federal Government agencies
 **Accepted Values** | Array of Strings
 **Usage Notes** | Represent each bureau responsible for the dataset according to the codes found in [OMB Circular A-11, Appendix C](http://www.whitehouse.gov/sites/default/files/omb/assets/a11_current_year/app_c.pdf). Start with the agency code, then a colon, then the bureau code.
-**Example** |  The Office of the Solicitor (86) at the Department of the Interior (010) would be: {"bureauCode":["010:86"]}
+**Example** |  The Office of the Solicitor (86) at the Department of the Interior (010) would be: `{"bureauCode":["010:86"]}`.  If a second bureau was also responsible, the format like this: `{"bureauCode":["010:86","010:04"]}`.
 
 {: .table .table-striped}
 **Field** | **contactPoint**
@@ -190,16 +193,16 @@ Further Metadata Field Guidance (alphabetical by JSON field)
   
     "distribution": [
             {
-                "accessURL": "https://explore.data.gov/views/ykv5-fn9t/rows.csv?accessType=DOWNLOAD", 
-                "format": "text/csv"
+                "accessURL":"https://explore.data.gov/views/ykv5-fn9t/rows.csv?accessType=DOWNLOAD", 
+                "format":"text/csv"
             }, 
             {
-                "accessURL": "https://explore.data.gov/views/ykv5-fn9t/rows.json?accessType=DOWNLOAD", 
-                "format": "application/json"
+                "accessURL":"https://explore.data.gov/views/ykv5-fn9t/rows.json?accessType=DOWNLOAD", 
+                "format":"application/json"
             }, 
             {
-                "accessURL": "https://explore.data.gov/views/ykv5-fn9t/rows.xml?accessType=DOWNLOAD", 
-                "format": "text/xml"
+                "accessURL":"https://explore.data.gov/views/ykv5-fn9t/rows.xml?accessType=DOWNLOAD", 
+                "format":"text/xml"
             }
         ]
         
@@ -209,8 +212,8 @@ Further Metadata Field Guidance (alphabetical by JSON field)
 **Cardinality** | (0,1)
 **Required** | Yes, if the file is available for public download.
 **Accepted Values** | String
-**Usage Notes** | This must describe the exact files available at **accessURL** using [MIME Types](http://en.wikipedia.org/wiki/Internet_media_type).  
-**Example** | `{"format": "application/json"}`
+**Usage Notes** | This must describe the exact files available at **accessURL** using [MIME Types](http://en.wikipedia.org/wiki/Internet_media_type).  _[Also note [Office Open XML MIME types](http://blogs.msdn.com/b/vsofficedeveloper/archive/2008/05/08/office-2007-open-xml-mime-types.aspx)]_
+**Example** | `{"format":"application/json"}`
 
 {: .table .table-striped}
 **Field** | **identifier**
@@ -227,7 +230,7 @@ Further Metadata Field Guidance (alphabetical by JSON field)
 **Cardinality** | (0,1)
 **Required** | No
 **Accepted Values** | ISO 8601 Date
-**Usage Notes** | Dates should be [ISO 8601](http://www.w3.org/TR/NOTE-datetime) of least resolution. In other words, as much of YYYY-MM-DDThh:mm:ss.sTZD as is relevant to this dataset. 
+**Usage Notes** | Dates should be [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) of least resolution. In other words, as much of YYYY-MM-DDThh:mm:ss.sTZD as is relevant to this dataset. 
 **Example** |  `{"issued":"2001-01-15"}`
 
 {: .table .table-striped}
@@ -237,7 +240,7 @@ Further Metadata Field Guidance (alphabetical by JSON field)
 **Required** | Yes, always
 **Accepted Values** | Array of strings
 **Usage Notes** | Surround each keyword with quotes. Separate keywords with commas.
-**Example** | `{"keyword": ["vegetables","veggies","greens","leafy","spinach","kale","nutrition"]}`
+**Example** | `{"keyword":["vegetables","veggies","greens","leafy","spinach","kale","nutrition"]}`
 
 {: .table .table-striped}
 **Field** | **landingPage**
@@ -254,8 +257,8 @@ Further Metadata Field Guidance (alphabetical by JSON field)
 **Cardinality** | (0,n)
 **Required** | No
 **Accepted Values** | Array of strings
-**Usage Notes** | This should adhere to the [RFC 5646](http://tools.ietf.org/html/rfc5646) standard. http://rishida.net/utils/subtags/ provides a good tool for checking and verifying language codes. A language tag is comprised of either one or two parts, the language subtag (such as en for English, sp for Spanish, wo for Wolof) and the regional subtag (such as US for United States, GB for Great Britain, MX for Mexico), separated by a hyphen. Regional subtags should only be provided when needed to distinguish a language tag from another one (such as American vs. British English).
-**Examples** |  `{"language":["es-MX", "wo", "nv", "en-US"]}` 
+**Usage Notes** | This should adhere to the [RFC 5646](http://tools.ietf.org/html/rfc5646) standard. This [language subtag lookup](http://rishida.net/utils/subtags/) provides a good tool for checking and verifying language codes. A language tag is comprised of either one or two parts, the language subtag (such as en for English, sp for Spanish, wo for Wolof) and the regional subtag (such as US for United States, GB for Great Britain, MX for Mexico), separated by a hyphen. Regional subtags should only be provided when needed to distinguish a language tag from another one (such as American vs. British English).
+**Example** |  `{"language":["en-US"]}` or if multiple languages, `{"language":["es-MX","wo","nv","en-US"]}` 
 
 {: .table .table-striped}
 **Field** | **license**
@@ -281,8 +284,10 @@ Further Metadata Field Guidance (alphabetical by JSON field)
 **Cardinality** | (1,1)
 **Required** | Yes, always
 **Accepted Values** | ISO 8601 Date
-**Usage Notes** | Dates should be [ISO 8601](http://www.w3.org/TR/NOTE-datetime) of least resolution. In other words, as much of YYYY-MM-DDThh:mm:ss.sTZD as is relevant to this dataset. If this file is brand-new, enter the **issued** date here as well.
-**Example** |  `{"modified":"2012-01-15"}`
+**Usage Notes** | Dates should be [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) of least resolution. In other words, as much of YYYY-MM-DDThh:mm:ss.sTZD as is relevant to this dataset. If this file is brand-new, enter the **issued** date here as well.  
+  
+If there is a need to reflect that the dataset is continually updated, ISO 8601 formatting can account for this by [giving the duration](http://en.wikipedia.org/wiki/ISO_8601#Durations).  For instance, `P1D` for daily, `P2W` for every two weeks, and `PT5M` for every five minutes.  
+**Example** |  `{"modified":"2012-01-15"}` or `{"modified":"P1D"}`
 
 {: .table .table-striped}
 **Field** | **PrimaryITInvestmentUII**
@@ -300,7 +305,7 @@ Further Metadata Field Guidance (alphabetical by JSON field)
 **Required** | Yes, for United States Federal Government Agencies
 **Accepted Values** | Array of strings
 **Usage Notes** | Provide an array of programs related to this data asset, from the [Federal Program Inventory](http://goals.performance.gov/sites/default/files/images/FederalProgramInventory_FY13_MachineReadable_091613.xls).
-**Example** |  `{"programCode":["015:001”, “015:002”]}`
+**Example** |  `{"programCode":["015:001"]}` or if multiple programs, `{"programCode":["015:001","015:002"]}`
 
 {: .table .table-striped}
 **Field** | **publisher**
@@ -318,7 +323,7 @@ Further Metadata Field Guidance (alphabetical by JSON field)
 **Required** | No
 **Accepted Values** | Array of strings (URLs)
 **Usage Notes** | Enclose each URL within strings. Separate multiple URLs with a comma.
-**Example** |  `{"references":["http://www.agency.gov/legumes/legumes_data_documentation.html", "http://www.agency.gov/fruits/fruit_data_documentation.html"]}`
+**Example** |  `{"references":["http://www.agency.gov/legumes/legumes_data_documentation.html"]}` or if multiple URLs, `{"references":["http://www.agency.gov/legumes/legumes_data_documentation.html","http://www.agency.gov/fruits/fruit_data_documentation.html"]}`
 
 {: .table .table-striped}
 **Field** | **spatial**
@@ -334,9 +339,13 @@ Further Metadata Field Guidance (alphabetical by JSON field)
 ----- | -----
 **Cardinality** | (0,1)
 **Required** | Yes, if applicable
-**Accepted Values** | See Usage Notes
-**Usage Notes** | This field should contain an interval of time defined by start and end dates.  Dates should be formatted as pairs of {start datetime/end datetime} in the [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format. ISO 8601 specifies that datetimes can be formatted in a number of ways, including a simple four-digit year (eg. 2013) to a much more specific YYYY-MM-DDTHH:MM:SSZ, where the T specifies a seperator between the date and time and time is expressed in 24 hour notation in the UTC (Zulu) time zone. (e.g., 2011-02-14T12:00:00Z/2013-07-04T19:34:00Z). Use a solidus ("/") to separate start and end times.
-**Example** |  `{"temporal":"2000-01-15T00:45:00Z/2010-01-15T00:06:00Z"}`
+**Accepted Values** | ISO 8601 Date
+**Usage Notes** | This field should contain an interval of time defined by start and end dates.  Dates should be formatted as pairs of {start datetime/end datetime} in the [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. ISO 8601 specifies that datetimes can be formatted in a number of ways, including a simple four-digit year (eg. 2013) to a much more specific YYYY-MM-DDTHH:MM:SSZ, where the T specifies a seperator between the date and time and time is expressed in 24 hour notation in the UTC (Zulu) time zone. (e.g., 2011-02-14T12:00:00Z/2013-07-04T19:34:00Z). Use a solidus ("/") to separate start and end times.  
+  
+If there is a need to reflect that the dataset is continually updated, ISO 8601 formatting can account for this [with repeating intervals](http://en.wikipedia.org/wiki/ISO_8601#Time_intervals).  For instance, updated monthly starting in January 2010 and continuing through the present would be represented as: `R/2010-01/P1M`.
+
+Updated every 5 minutes beginning on February 15, 2010 would be represented as: `R/2010-02-15/PT5M`.  
+**Example** |  `{"temporal":"2000-01-15T00:45:00Z/2010-01-15T00:06:00Z"}`  or `{"temporal":"R/2000-01-15T00:45:00Z/P1W"}`  
 
 {: .table .table-striped}
 **Field** | **theme**
@@ -345,7 +354,7 @@ Further Metadata Field Guidance (alphabetical by JSON field)
 **Required** | No
 **Accepted Values** | Array of strings
 **Usage Notes** | Separate multiple categories with a comma. Could include [ISO Topic Categories](http://www.isotopicmaps.org/).  
-**Example** |  `{"theme":["vegetables","produce"]}`
+**Examples** |  `{"theme":["vegetables"]}` or if multiple categories, `{"theme":["vegetables","produce"]}`
 
 {: .table .table-striped}
 **Field**       | **title**
@@ -390,10 +399,4 @@ Additional Information
 * [Schema.org](http://schema.org)
 * [DCAT](http://www.w3.org/TR/vocab-dcat/)
 * [Vocab.Data.gov](http://vocab.data.gov)
-
-
-Examples
---------
-* [JSON](/metadata-resources/)
-* [RDFa Lite](/metadata-resources/)
-* [XML](/metadata-resources/)
+* [Template and Sample Files (CSV and JSON format)](/metadata-resources/)
